@@ -18,6 +18,10 @@ public class EmployeeService {
  
  private EmployeeDAO employeeDAO = new EmployeeDAO();
  
+    public List<Employee> getAllEmployees() {
+        return employeeDAO.getAllEmployees();
+    }
+
     public Employee findEmployeeById(String id) {
         List<Employee> allEmployees = employeeDAO.getAllEmployees();
         for (Employee emp : allEmployees) {
@@ -30,6 +34,12 @@ public class EmployeeService {
     
     // create
     public void addEmployee(Employee emp) {
+        // validate here (e.g., check if ID already exists)
+        if (findEmployeeById(emp.getEmployeeID()) != null) {
+            System.out.println("Error: Employee ID already exists.");
+            return;
+        }
+        
         List<Employee> list = employeeDAO.getAllEmployees();
         list.add(emp);
         employeeDAO.saveAllEmployees(list);

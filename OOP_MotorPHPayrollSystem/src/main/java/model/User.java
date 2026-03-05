@@ -16,11 +16,11 @@ public class User {
     private String employeeID; 
 
 
-    public User(String username, String password, String role, String employeeId) {
+    public User(String username, String password, String role, String employeeID) {
         this.username = username;
         this.password = password;
         this.role = role;
-        this.employeeID = employeeId;
+        this.employeeID = employeeID;
     }
 
     public String getEmployeeId() {

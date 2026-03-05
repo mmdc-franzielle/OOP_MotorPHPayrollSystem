@@ -5,8 +5,6 @@
 
 package model;
 
-import model.Employee;
-
 /**
  *
  * @author franzielle

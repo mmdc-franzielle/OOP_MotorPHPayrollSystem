@@ -14,8 +14,7 @@ import model.User;
  * @author franzielle
  */
 
-public class AdminDashboard extends BaseDashboard {
-    
+public class AdminDashboard extends BaseDashboard {  
     
     private MainController controller;
       private User user;
@@ -31,37 +30,41 @@ public class AdminDashboard extends BaseDashboard {
     protected void setupSidebarButtons() {
         // 1. profile button
         JButton profileButton = new JButton("My Profile");
-        profileButton.setBounds(25, 120, 200, 40);
-        profileButton.setFocusPainted(false);
+        profileButton.setBounds(center, 120, buttonWidth, buttonHeight);
         sidebar.add(profileButton);
 
         // 2. manage employees button
         JButton manageEmpButton = new JButton("Manage Employees");
-        manageEmpButton .setBounds(25, 180, 200, 40);
-        manageEmpButton .setFocusPainted(false);
-        sidebar.add(manageEmpButton );
+        manageEmpButton.setBounds(center, 180, buttonWidth, buttonHeight);
+        sidebar.add(manageEmpButton);
+        
+        manageEmpButton.addActionListener(e -> {
+            switchContent(new ui.admin.ManageEmployeePanel(controller));
+        });
 
         // 3. run payroll button
         JButton payrollButton = new JButton("Run Payroll");
-        payrollButton.setBounds(25, 240, 200, 40);
-        payrollButton.setFocusPainted(false);
+        payrollButton.setBounds(center, 240, buttonWidth, buttonHeight);
         sidebar.add(payrollButton);
+        
+        payrollButton.addActionListener(e -> {
+            switchContent(new ui.admin.PayrollPanel(controller));
+        });
 
         // 4. leave approval button
-        JButton leaveAppButton = new JButton("Leave Approvals");
-        leaveAppButton.setBounds(25, 300, 200, 40);
-        leaveAppButton.setFocusPainted(false);
-        sidebar.add(leaveAppButton);
+        JButton leaveAppButton  = new JButton("Leave Approvals");
+        leaveAppButton.setBounds(center, 300, buttonWidth, buttonHeight);
+        sidebar.add(leaveAppButton );
 
         // 5. logout
         JButton logoutButton = new JButton("Logout");
-        logoutButton.setBounds(25, 500, 200, 40);
+        logoutButton.setBounds(center, 700, buttonWidth, buttonHeight);
         logoutButton.setBackground(new Color(220, 53, 69));
         logoutButton.setForeground(Color.WHITE);
-        sidebar.add(logoutButton);
         
         logoutButton.addActionListener(e -> controller.handleLogout());
         
         sidebar.add(logoutButton);
     }
+
 }

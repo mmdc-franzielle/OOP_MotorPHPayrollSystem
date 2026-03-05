@@ -22,10 +22,10 @@ public class EmployeeDAO {
         String line;
 
         try (BufferedReader br = new BufferedReader(new FileReader(CSV_FILE))) {
-            br.readLine(); // Skip header
+             br.readLine();
 
             while ((line = br.readLine()) != null) {
-                // Regex to handle commas inside quotes
+                // regex to handle commas inside quotes ( add to all dao )
                 String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
                 if (data.length < 19) continue;

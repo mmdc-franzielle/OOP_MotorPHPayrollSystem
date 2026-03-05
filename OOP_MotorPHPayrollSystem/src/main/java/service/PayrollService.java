@@ -5,6 +5,7 @@
 package service;
 
 import model.Employee;
+import model.Payslip;
 import service.deductions.*;
 
 /**
@@ -19,7 +20,7 @@ public class PayrollService {
     private PagIbigDeduction piCalculation = new PagIbigDeduction();
     private TaxDeduction taxCalculation = new TaxDeduction();
 
-    public double calculateNetPay(Employee emp, double hoursWorked) {
+    public Payslip calculateNetPay(Employee emp, double hoursWorked) {
         // 1. calculate gross
         double hourlyRate = emp.getHourlyRate();
         double grossBasic = hoursWorked * hourlyRate;
@@ -39,7 +40,18 @@ public class PayrollService {
         double tax = taxCalculation.calculate(taxableIncome);
 
         // 6. final net pay
-        return (taxableIncome - tax) + totalAllowances;
+        double netPay = (taxableIncome - tax) + totalAllowances;
+        
+        // return the full breakdown in a payslip 
+       
+        return new Payslip (
+            grossBasic, 
+            totalAllowances, 
+            sss, 
+            philhealth, 
+            pagibig, 
+            tax, 
+            netPay
+        );
     }
-    
 }

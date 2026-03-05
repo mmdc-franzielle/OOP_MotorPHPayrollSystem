@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
         setResizable(false);
         setLayout(new BorderLayout());
         
-        setSize(1200, 700); 
+        setSize(1400, 850); 
     }
 
     public void setMainContent(JPanel newPanel) {
@@ -30,8 +30,16 @@ public class MainFrame extends JFrame {
         add(newPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
-        pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        
+        JScrollPane pageScroll = new JScrollPane(newPanel);
+        pageScroll.setBorder(null); 
+        pageScroll.getVerticalScrollBar().setUnitIncrement(16); 
+
+        add(pageScroll, BorderLayout.CENTER);
+
+        revalidate();
+        repaint();
     }
 }

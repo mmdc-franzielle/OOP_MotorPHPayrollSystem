@@ -10,6 +10,9 @@ import ui.EmployeeDashboard;
 import javax.swing.JOptionPane;
 import model.User;
 import service.AuthService;
+import service.EmployeeService;
+import service.AttendanceService;
+import service.PayrollService;
 import ui.MainFrame;
 
 /**
@@ -20,6 +23,9 @@ import ui.MainFrame;
 public class MainController {
     
     private final AuthService authService = new AuthService();
+    private final EmployeeService employeeService = new EmployeeService();
+    private final AttendanceService attendanceService = new AttendanceService();
+    private final PayrollService payrollService = new PayrollService();
     private MainFrame mainFrame;
 
     public void start() {
@@ -63,4 +69,42 @@ public class MainController {
     public void handleLogout() {
         showLogin();
     }
+    
+    // accessors
+    
+    public AttendanceService getAttendanceService() {
+        return attendanceService;
+    }
+
+    public EmployeeService getEmployeeService() {
+        return employeeService;
+    }
+
+    public PayrollService getPayrollService() {
+        return payrollService;
+    }
+
+    public MainFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    // methods coming soon (WIP)
+    /*
+    public void runPayroll(int month) {
+        // TODO: Logic for calculating monthly payroll for all employees
+        // Will involve PayrollService and AttendanceService
+    }
+
+    public void generatePayslip(String employeeId) {
+        // TODO: Logic to generate PDF or View for individual payslip
+    }
+
+    public void submitAttendance(String employeeId, String date, String timeIn, String timeOut) {
+        // TODO: Logic to record daily time logs to CSV via AttendanceService
+    }
+    
+    public void approveLeaveRequest(String requestId) {
+        // TODO: Logic for HR/Managers to approve leave applications
+    }
+    */
 }
