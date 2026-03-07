@@ -9,6 +9,8 @@ import ui.AdminDashboard;
 import ui.EmployeeDashboard;
 import javax.swing.JOptionPane;
 import model.User;
+import model.Employee;
+import model.roles.*;
 import service.AuthService;
 import service.EmployeeService;
 import service.AttendanceService;
@@ -39,29 +41,37 @@ public class MainController {
     }
 
     public void handleLogin(String username, String password, String selectedRole) {
+        // checks ID and last name
         User user = authService.authenticate(username, password, selectedRole);
+
         if (user != null) {
-            launchDashboard(user);
+            // fetch specialized object
+            Employee empProfile = employeeService.findEmployeeById(user.getEmployeeId());
+
+            if (empProfile != null) {
+                launchDashboard(user, empProfile);
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Profile not found!");
+            }
         } else {
-            JOptionPane.showMessageDialog(mainFrame, "Invalid Credentials!");
+            JOptionPane.showMessageDialog(mainFrame, "Invalid Employee ID or Last Name!");
         }
     }
 
-    private void launchDashboard(User user) {
-        String role = user.getRole();
-        
-        if (role.equalsIgnoreCase("ADMIN") || 
-            role.equalsIgnoreCase("HR") || 
-            role.equalsIgnoreCase("FINANCE") ||
-            role.equalsIgnoreCase("MANAGER")) { 
-            
+
+    // RBAC: decide which dashboard to show based on the class of the object.
+    // TO UPDATE: add more dashboards !!
+    
+    public void launchDashboard(User user, Employee emp) {
+ 
+        System.out.println("Login Successful for: " + emp.getFirstName() + " (" + emp.getClass().getSimpleName() + ")");
+
+        // RBAC check
+        if (emp instanceof Admin || emp instanceof HR || emp instanceof Finance) {
+
             mainFrame.setMainContent(new AdminDashboard(this, user));
-            
-        } else if (role.equalsIgnoreCase("IT")) {
-            JOptionPane.showMessageDialog(mainFrame, "IT Dashboard is coming soon!");
-            mainFrame.setMainContent(new EmployeeDashboard(this, user));
-            
         } else {
+
             mainFrame.setMainContent(new EmployeeDashboard(this, user));
         }
     }
@@ -69,7 +79,7 @@ public class MainController {
     public void handleLogout() {
         showLogin();
     }
-    
+
     // accessors
     
     public AttendanceService getAttendanceService() {
@@ -87,24 +97,4 @@ public class MainController {
     public MainFrame getMainFrame() {
         return mainFrame;
     }
-
-    // methods coming soon (WIP)
-    /*
-    public void runPayroll(int month) {
-        // TODO: Logic for calculating monthly payroll for all employees
-        // Will involve PayrollService and AttendanceService
-    }
-
-    public void generatePayslip(String employeeId) {
-        // TODO: Logic to generate PDF or View for individual payslip
-    }
-
-    public void submitAttendance(String employeeId, String date, String timeIn, String timeOut) {
-        // TODO: Logic to record daily time logs to CSV via AttendanceService
-    }
-    
-    public void approveLeaveRequest(String requestId) {
-        // TODO: Logic for HR/Managers to approve leave applications
-    }
-    */
 }

@@ -16,7 +16,7 @@ public abstract class Employee {
         private String lastName;
         private String birthDate;
         private String sss;
-        public String philhealth;
+        private String philhealth;
         private String tin;
         private String pagibig;
         private String status;
@@ -175,21 +175,6 @@ public abstract class Employee {
 
     public void setHourlyRate(float hourlyRate) {
         this.hourlyRate = hourlyRate;
-    }
-
-    public Role getRole() {
-        if (position.equalsIgnoreCase("HR Manager")) {
-            return Role.HR;
-        } else if (position.equalsIgnoreCase("Account Manager")) {
-            return Role.FINANCE;
-        } else if (position.equalsIgnoreCase("IT Specialist")) {
-            return Role.IT;
-        } else if (position.equalsIgnoreCase("Chief Executive Officer")
-                || position.equalsIgnoreCase("Chief Operating Officer")) {
-            return Role.ADMIN;
-        } else {
-            return Role.EMPLOYEE;
-        }
     }
 }
     

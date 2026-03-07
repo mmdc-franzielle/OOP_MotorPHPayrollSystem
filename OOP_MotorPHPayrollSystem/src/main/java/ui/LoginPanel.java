@@ -51,7 +51,7 @@ public class LoginPanel extends JPanel {
         loginCard.add(roleLabel);
 
         // role dropdown (JComboBox)
-        String[] roles = {"Employee", "IT", "Manager", "Finance", "HR"};
+        String[] roles = {"Employee", "Admin", "HR", "Finance", "IT"};
         JComboBox<String> roleBox = new JComboBox<>(roles);
         roleBox.setBounds(100, 160, 300, 35);
         roleBox.setBackground(Color.WHITE);
@@ -59,7 +59,7 @@ public class LoginPanel extends JPanel {
         loginCard.add(roleBox);
 
         // username label & field
-        JLabel userLabel = new JLabel("Username");
+        JLabel userLabel = new JLabel("Username (Employee ID)");
         userLabel.setBounds(100, 210, 300, 20);
         loginCard.add(userLabel);
 

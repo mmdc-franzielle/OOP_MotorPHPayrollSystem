@@ -90,12 +90,12 @@ public class PayrollPanel extends JPanel {
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.insets = new Insets(25, 5, 5, 5);
-        JButton calculateBtn = new JButton("Calculate Net Pay");
-        calculateBtn.setBackground(new Color(0x333f4f));
-        calculateBtn.setForeground(Color.WHITE);
-        calculateBtn.setFocusPainted(false);
-        calculateBtn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        leftPanel.add(calculateBtn, gbc);
+        JButton calculateButton = new JButton("Calculate Net Pay");
+        calculateButton.setBackground(new Color(0x333f4f));
+        calculateButton.setForeground(Color.WHITE);
+        calculateButton.setFocusPainted(false);
+        calculateButton.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        leftPanel.add(calculateButton, gbc);
 
 
         JPanel wrapper = new JPanel(new BorderLayout());
@@ -115,7 +115,7 @@ public class PayrollPanel extends JPanel {
         scrollPane.setPreferredSize(new Dimension(600, 500));
         add(scrollPane, BorderLayout.CENTER);
 
-        calculateBtn.addActionListener(e -> runCalculation());
+        calculateButton.addActionListener(e -> runCalculation());
     }
 
     private void runCalculation() {
@@ -139,13 +139,12 @@ public class PayrollPanel extends JPanel {
         double totalHours = controller.getAttendanceService().getTotalHoursForMonth(id, monthStr);
         
         // calculate
-        PayrollService payrollService = new PayrollService();
+        PayrollService payrollService = controller.getPayrollService();
         Payslip payslip = payrollService.calculateNetPay(emp, totalHours);
 
         displaySummary(emp, totalHours, payslip);
     }
 
-    // paki-improve yung design ^^
     private void displaySummary(Employee emp, double hours, Payslip p) {
         StringBuilder sb = new StringBuilder();
         sb.append("==========================================\n");
@@ -155,7 +154,7 @@ public class PayrollPanel extends JPanel {
         sb.append(String.format("Hours:       %.2f\n", hours));
         sb.append("------------------------------------------\n");
         sb.append(String.format("Gross Basic:           PHP %,.2f\n", p.grossBasic));
-        sb.append(String.format("Total Allowances:      PHP %,.2f\n", p.totalAllowances));
+        sb.append(String.format("Total Allowances:      PHP %,.2f\n", p.totalAllowance));
         sb.append("------------------------------------------\n");
         sb.append(String.format("Total Deductions:    - PHP %,.2f\n", (p.sss + p.philhealth + p.pagibig + p.tax)));
         sb.append("------------------------------------------\n");

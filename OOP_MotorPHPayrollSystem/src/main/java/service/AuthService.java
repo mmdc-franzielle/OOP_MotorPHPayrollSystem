@@ -5,43 +5,37 @@
 package service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import model.User;
 
 /**
- * purpose: it reads MotorPH_LoginCredentials.csv to verify if a user is allowed in.
+ * 
  * @author franzielle
  */
 
 public class AuthService {
     
-private static final String LOGIN_FILE = "MotorPH_LoginCredentials.csv";
+private static final String EMPLOYEE_FILE = "MotorPH_EmployeeData.csv";
 
     public User authenticate(String username, String password, String selectedRole) {
-        File file = new File(LOGIN_FILE);
-        
-        if (!file.exists()) {
-            System.err.println("FILE NOT FOUND: " + file.getAbsolutePath());
-            return null;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(EMPLOYEE_FILE))) {
             String line;
-            br.readLine(); // Skip header
+            br.readLine(); // skip header
 
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length < 3) continue;
+                // handle commas inside quotes
+                String[] data = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                if (data.length < 12) continue;
 
-                String fileUser = data[0].replace("\"", "").trim();
-                String filePass = data[1].replace("\"", "").trim();
-                String fileRole = data[2].replace("\"", "").trim();
+                String empID = data[0].replace("\"", "").trim();
+                String lastName = data[1].replace("\"", "").trim();
+                String position = data[11].replace("\"", "").trim();
 
-                if (fileUser.equals(username) && filePass.equals(password)) {
-                    // FIX: Pass fileUser as the employeeId (4th argument)
-                    return new User(fileUser, filePass, fileRole, fileUser);
+                // check if ID matches username and last name matches password
+                if (empID.equals(username) && lastName.equalsIgnoreCase(password)) {
+                 
+                    return new User(username, password, selectedRole, empID);
                 }
             }
         } catch (IOException e) {
