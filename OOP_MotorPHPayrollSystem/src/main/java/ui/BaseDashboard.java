@@ -53,7 +53,7 @@ public abstract class BaseDashboard extends JPanel {
         
     }
     
-    // methods !! ( okay lang ba 'to dito? )
+    // methods !! 
     
     // switcher 
     public void switchContent(JPanel newPanel) {

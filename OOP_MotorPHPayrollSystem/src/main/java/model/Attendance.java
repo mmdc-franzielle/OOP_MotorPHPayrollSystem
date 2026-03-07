@@ -14,22 +14,25 @@ import java.time.LocalTime;
 
 public class Attendance {
     
-    private String employeeId;
+    private String employeeID;
+    private String lastName;
+    private String firstName;
     private String date;
     private String timeIn;
     private String timeOut;
 
-    public Attendance(String employeeId, String date, String timeIn, String timeOut) {
-        this.employeeId = employeeId;
+    public Attendance(String employeeID, String lastName, String firstName,
+            String date, String timeIn, String timeOut) {
+        this.employeeID = employeeID;
         this.date = date;
         this.timeIn = timeIn;
         this.timeOut = timeOut;
     }
-    
+
     // logic to calculate hours for this specific day
     public double calculateDayHours() {
         try {
-
+            // padding for times like "8:00" -> "08:00"
             String start = (timeIn.length() == 4) ? "0" + timeIn : timeIn;
             String end = (timeOut.length() == 4) ? "0" + timeOut : timeOut;
 
@@ -39,42 +42,44 @@ public class Attendance {
             Duration duration = Duration.between(in, out);
             double hours = duration.toMinutes() / 60.0;
 
-
+            // deduct 1 hour for lunch if worked more than 4 hours
             return (hours > 4) ? hours - 1.0 : hours;
         } catch (Exception e) {
             return 0.0;
         }
     }
-    
-        // logic for late minutes
+
+    // logic for late minutes
     public double calculateLateMinutes() {
         try { 
-            
-            // padding
             String start = (this.timeIn.length() == 4) ? "0" + this.timeIn : this.timeIn;
             
             LocalTime shiftStart = LocalTime.of(8, 0); 
             LocalTime actualIn = LocalTime.parse(start);
 
-            // 10-min grace period
+            // 10-min grace period (8:10 is not late, 8:11 is)
             if (actualIn.isBefore(LocalTime.of(8, 11))) {
                 return 0;
             }
             
-            // calculate difference
-            long minutesLate = Duration.between(shiftStart, actualIn).toMinutes();
-
-            return (double) minutesLate; 
+            return (double) Duration.between(shiftStart, actualIn).toMinutes(); 
             
         } catch (Exception e) {
             return 0.0; 
         }
     }
-    
+
     // getters
+    public String getEmployeeID() { 
+        return employeeID; 
+    }
     
-    public String getEmployeeId() { 
-        return employeeId; 
+    public String getLastName() {
+        return lastName;
+    }
+    
+     public String getFirstName() { 
+        return firstName; 
     }
     
     public String getDate() { 

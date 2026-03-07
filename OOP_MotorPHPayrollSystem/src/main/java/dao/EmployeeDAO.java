@@ -36,40 +36,46 @@ public class EmployeeDAO {
                     data[i] = data[i].replace("\"", "").trim();
                 }
 
-                String id = data[0];
-                String lName = data[1];
-                String fName = data[2];
-                String bDay = data[3];
+                String employeeID = data[0];
+                String lastName = data[1];
+                String firstName = data[2];
+                String birthDate = data[3];
+                String address = data[4];
+                String phoneNumber = data[5];
                 String sss = data[6];
-                String phil = data[7];
+                String philhealth = data[7];
                 String tin = data[8];
                 String pagibig = data[9];
                 String status = data[10];
                 String position = data[11];
-                float basic = parseFormattedFloat(data[13]);
-                float rice = parseFormattedFloat(data[14]);
-                float phone = parseFormattedFloat(data[15]);
-                float cloth = parseFormattedFloat(data[16]);
-                float hourly = parseFormattedFloat(data[18]);
+                float basicPay = parseFormattedFloat(data[13]);
+                float riceSub = parseFormattedFloat(data[14]);
+                float phoneAl = parseFormattedFloat(data[15]);
+                float clothAl = parseFormattedFloat(data[16]);
+                float hourlyRate = parseFormattedFloat(data[18]);
 
-                // RBAC 
                 Employee employee;
                 String pos = position.toLowerCase();
 
-                if (pos.contains("hr") || pos.contains("human resources")) {
-                    employee = new HR(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
-                } else if (pos.contains("account") || pos.contains("finance")) {
-                    employee = new Finance(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
+                if (pos.contains("hr")) {
+                    employee = new HR(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                            sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
+                } else if (pos.contains("account") || pos.contains("finance") || pos.contains("payroll")) {
+                    employee = new Finance(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                            sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
                 } else if (pos.contains("it") || pos.contains("network")) {
-                    employee = new IT(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
-                } else if (pos.contains("admin") || pos.contains("chief") || pos.contains("ceo")) {
-                    employee = new Admin(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
+                    employee = new IT(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                            sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
+                } else if (pos.contains("admin") || pos.contains("chief")) {
+                    employee = new Admin(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                            sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
                 } else {
-                    // status
                     if ("Regular".equalsIgnoreCase(status)) {
-                        employee = new RegularEmployee(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
+                        employee = new RegularEmployee(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                                sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
                     } else {
-                        employee = new ProbationaryEmployee(id, fName, lName, bDay, sss, phil, tin, pagibig, status, position, basic, rice, phone, cloth, hourly);
+                        employee = new ProbationaryEmployee(employeeID, firstName, lastName, birthDate, address, phoneNumber, 
+                                sss, philhealth, tin, pagibig, status, position, basicPay, riceSub, phoneAl, clothAl, hourlyRate);
                     }
                 }
                 employees.add(employee);
@@ -81,24 +87,36 @@ public class EmployeeDAO {
     }
 
    public void saveAllEmployees(List<Employee> employees) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(CSV_FILE))) {
-            // Write the header exactly as MotorPH expects it
-            pw.println("Employee #, Last Name, First Name, Birthday, Address, Phone, "
-                    + "SSS, Philhealth, TIN, Pag-ibig, Status, Position, Supervisor, Basic Salary,"
-                    + "Rice Subsidy, Phone Allowance, Clothing Allowance, Gross Semi-monthly Rate, Hourly Rate");
+       try (PrintWriter pw = new PrintWriter(new FileWriter(CSV_FILE))) {
+           pw.println("Employee #, Last Name, First Name, Birthday, Address, Phone, "
+                   + "SSS, Philhealth, TIN, Pag-ibig, Status, Position, Supervisor, Basic Salary,"
+                   + "Rice Subsidy, Phone Allowance, Clothing Allowance, Gross Semi-monthly Rate, Hourly Rate");
             
             for (Employee e : employees) {
-                pw.printf("%s,%s,%s,%s,,,%s,%s,%s,%s,%s,%s,,%.2f,%.2f,%.2f,%.2f,,%.2f%n",
-                    e.getEmployeeID(), e.getLastName(), e.getFirstName(), e.getBirthDate(),
-                    e.getSSS(), e.getPhilhealth(), e.getTin(), e.getPagibig(),
-                    e.getStatus(), e.getPosition(), e.getBasicPay(), e.getRiceSub(),
-                    e.getPhoneAl(), e.getClothAl(), e.getHourlyRate());
+              
+                pw.printf("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,,%.2f,%.2f,%.2f,%.2f,,%.2f%n",
+                        e.getEmployeeID(),
+                        e.getLastName(),
+                        e.getFirstName(),
+                        e.getBirthDate(),
+                        e.getAddress(), 
+                        e.getPhoneNumber(), 
+                        e.getSSS(),
+                        e.getPhilhealth(),
+                        e.getTin(),
+                        e.getPagibig(),
+                        e.getStatus(),
+                        e.getPosition(),
+                        e.getBasicPay(),
+                        e.getRiceSub(),
+                        e.getPhoneAl(),
+                        e.getClothAl(),
+                        e.getHourlyRate());
             }
         } catch (IOException e) {
             System.err.println("Error writing to CSV: " + e.getMessage());
         }
-        
-   }
+    }
 
     private float parseFormattedFloat(String value) {
         try {

@@ -5,7 +5,7 @@
 package model;
 
 /**
- * 
+ * employee (blueprint)
  * @author franzielle
  */
 
@@ -15,6 +15,8 @@ public abstract class Employee {
         private String firstName;
         private String lastName;
         private String birthDate;
+        private String address;
+        private String phoneNumber;
         private String sss;
         private String philhealth;
         private String tin;
@@ -28,7 +30,7 @@ public abstract class Employee {
         private float hourlyRate;
 
     // constructor
-     public Employee(String employeeID, String firstName, String lastName, String birthDate, 
+     public Employee(String employeeID, String firstName, String lastName, String birthDate, String address, String phoneNumber,
                     String sss, String philhealth, String tin, String pagibig, 
                     String status, String position, float basicPay, float riceSub, 
                     float phoneAl, float clothAl, float hourlyRate) {
@@ -37,6 +39,8 @@ public abstract class Employee {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
         this.sss = sss;
         this.philhealth = philhealth;
         this.tin = tin;
@@ -68,6 +72,14 @@ public abstract class Employee {
 
     public String getBirthDate() {
         return birthDate;
+    }
+    
+    public String getAddress() {
+        return address;
+    }
+    
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
     public String getSSS() {
@@ -132,7 +144,17 @@ public abstract class Employee {
     public void setBirthDate(String birthDate) {
         this.birthDate = birthDate;
     }
-
+    
+    /*
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    */
+    
     public void setSSS(String sss) {
         this.sss = sss;
     }

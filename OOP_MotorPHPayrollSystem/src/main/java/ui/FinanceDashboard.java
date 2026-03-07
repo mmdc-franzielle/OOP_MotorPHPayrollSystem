@@ -5,19 +5,21 @@
 package ui;
 
 import com.mycompany.oop_motorphpayrollsystem.MainController;
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import model.Employee;
 import model.User;
 
 /**
- * admin dashboard
+ *
  * @author franzielle
  */
 
-public class AdminDashboard extends EmployeeDashboard {  
-
-    public AdminDashboard(MainController controller, User user, Employee employee) {
+public class FinanceDashboard extends EmployeeDashboard {
+    
+    public FinanceDashboard(MainController controller, User user, Employee employee) {
         super(controller, user, employee);
     }
     
@@ -27,7 +29,7 @@ public class AdminDashboard extends EmployeeDashboard {
         super.setupSidebarButtons();
 
         // add special tools (header)
-        JLabel adminLabel = new JLabel("ADMIN TOOLS");
+        JLabel adminLabel = new JLabel("IT TOOLS");
         adminLabel.setForeground(new Color(170, 170, 170));
         adminLabel.setFont(new Font("Segoe UI", Font.BOLD, 11));
         adminLabel.setBounds(25, 380, 200, 20);
@@ -36,22 +38,17 @@ public class AdminDashboard extends EmployeeDashboard {
         // add special tools (button)
         int y = 410;
 
-        JButton manageEmpButton = createSidebarButton("Manage Employees",y);
-        manageEmpButton.addActionListener(e -> switchContent(new ui.tools.ManageEmployeePanel(controller)));
-        sidebar.add(manageEmpButton);
-        
-        y += 60;
-        JButton timesheetButton = createSidebarButton("Timesheet", y);
-        timesheetButton.addActionListener(e -> switchContent(new ui.tools.TimesheetPanel()));
-        sidebar.add(timesheetButton);
-
-        y += 60;
-        JButton payrollButton = createSidebarButton("Run Payroll", y);
+        JButton payrollButton = createSidebarButton("Run Payroll",y);
         payrollButton.addActionListener(e -> switchContent(new ui.tools.PayrollPanel(controller)));
         sidebar.add(payrollButton);
 
         y += 60;
-        JButton leaveAppButton = createSidebarButton("Leave Approvals", y);
-        sidebar.add(leaveAppButton);
+        JButton timesheetButton = createSidebarButton("Timesheet", y);
+        timesheetButton.addActionListener(e -> switchContent(new ui.tools.TimesheetPanel()));
+        sidebar.add(timesheetButton);
+        
+        y += 60;
+        JButton statutoryRepButton = createSidebarButton("Statutory Report", y);
+        sidebar.add(statutoryRepButton );
     }
 }

@@ -15,6 +15,9 @@ import service.AuthService;
 import service.EmployeeService;
 import service.AttendanceService;
 import service.PayrollService;
+import ui.FinanceDashboard;
+import ui.HRDashboard;
+import ui.ITDashboard;
 import ui.MainFrame;
 
 /**
@@ -63,18 +66,18 @@ public class MainController {
     // TO UPDATE: add more dashboards !!
     
     public void launchDashboard(User user, Employee emp) {
- 
-        System.out.println("Login Successful for: " + emp.getFirstName() + " (" + emp.getClass().getSimpleName() + ")");
-
-        // RBAC check
-        if (emp instanceof Admin || emp instanceof HR || emp instanceof Finance) {
-
-            mainFrame.setMainContent(new AdminDashboard(this, user));
-        } else {
-
-            mainFrame.setMainContent(new EmployeeDashboard(this, user));
-        }
+    if (emp instanceof Admin) {
+        mainFrame.setMainContent(new AdminDashboard(this, user, emp));
+    } else if (emp instanceof HR) {
+        mainFrame.setMainContent(new HRDashboard(this, user, emp));
+    } else if (emp instanceof Finance) {
+        mainFrame.setMainContent(new FinanceDashboard(this, user, emp));
+    } else if (emp instanceof IT) {
+        mainFrame.setMainContent(new ITDashboard(this, user, emp));
+    } else {
+        mainFrame.setMainContent(new EmployeeDashboard(this, user, emp));
     }
+}
 
     public void handleLogout() {
         showLogin();

@@ -25,7 +25,7 @@ public class AttendanceService {
 
         for (Attendance record : allRecords) {
 
-            if (record.getEmployeeId().equals(employeeId) && record.getDate().startsWith(month)) {
+            if (record.getEmployeeID().equals(employeeId) && record.getDate().startsWith(month)) {
                 totalHours += record.calculateDayHours();
             }
         }
@@ -38,7 +38,7 @@ public class AttendanceService {
         double totalHours = 0;
 
         for (Attendance record : allRecords) {
-            if (record.getEmployeeId().equals(employeeId) && 
+            if (record.getEmployeeID().equals(employeeId) && 
                 isDateInRange(record.getDate(), startDate, endDate)) {
                 totalHours += record.calculateDayHours();
             }
@@ -52,7 +52,7 @@ public class AttendanceService {
         int totalLate = 0;
 
         for (Attendance record : allRecords) {
-            if (record.getEmployeeId().equals(employeeId) && record.getDate().startsWith(month)) {
+            if (record.getEmployeeID().equals(employeeId) && record.getDate().startsWith(month)) {
                 totalLate += record.calculateLateMinutes(); 
             }
         }
@@ -62,7 +62,7 @@ public class AttendanceService {
     // filters attendance
     public List<Attendance> getEmployeeAttendanceHistory(String employeeId) {
         return attendanceDAO.getAllAttendance().stream()
-                .filter(record -> record.getEmployeeId().equals(employeeId))
+                .filter(record -> record.getEmployeeID().equals(employeeId))
                 .collect(Collectors.toList());
     }
 

@@ -7,6 +7,7 @@ package ui;
 import com.mycompany.oop_motorphpayrollsystem.MainController;
 import javax.swing.*;
 import java.awt.*;
+import model.Employee;
 import model.User;
 
 /**
@@ -16,52 +17,66 @@ import model.User;
 
 public class EmployeeDashboard extends BaseDashboard {
     
-    private MainController controller;
-    private User user;
+    protected MainController controller;
+    protected User user;
+    protected Employee employee;
     
-    public EmployeeDashboard(MainController controller, User user) {
+    
+    // constructor
+    public EmployeeDashboard(MainController controller, User user, Employee employee) {
         super("Employee Portal"); 
         this.controller = controller;
-
+        this.employee = employee;
         setupSidebarButtons();
     }
 
     @Override
     protected void setupSidebarButtons(){
-        // 1. profile button
-        JButton profileButton = new JButton("My Profile");
-        profileButton.setBounds(25, 120, 200, 40);
-        profileButton.setFocusPainted(false);
+        
+        // standard sidebar buttons (y-position)
+        int yPosition = 120;
+        
+        // my profile
+        JButton profileButton = createSidebarButton("My Profile", yPosition);
+        profileButton.addActionListener(e -> switchContent(new ui.ProfilePanel(this.employee)));
         sidebar.add(profileButton);
 
-        // 2. attendance button
-        JButton attendanceButton = new JButton("View Attendance");
-        attendanceButton.setBounds(25, 180, 200, 40);
-        attendanceButton.setFocusPainted(false);
+        // attendance
+        yPosition += 60;
+        JButton attendanceButton = createSidebarButton("View Attendance", yPosition);
+        // attendanceButton.addActionListener(e -> switchContent(new ui.AttendancePanel(employee)));
         sidebar.add(attendanceButton);
 
-        // 3. salary button
-        JButton payslipButton = new JButton("Payslip");
-        payslipButton.setBounds(25, 240, 200, 40);
-        payslipButton.setFocusPainted(false);
+        // payslip
+        yPosition += 60;
+        JButton payslipButton = createSidebarButton("Payslip", yPosition);
+        // payslipButton.addActionListener(e -> switchContent(new ui.PayslipPanel(employee)));
         sidebar.add(payslipButton);
-        
-        // 3. leave request button
-        JButton leaveReqButton = new JButton("Leave Requests");
-        leaveReqButton.setBounds(25, 300, 200, 40);
-        leaveReqButton .setFocusPainted(false);
+
+        // leave request
+        yPosition += 60;
+        JButton leaveReqButton = createSidebarButton("Leave Requests", yPosition);
+        // leaveReqButton.addActionListener(e -> switchContent(new ui.LeaveRequestPanel(employee)));
         sidebar.add(leaveReqButton);
 
-        // 4. logout
+        // logout
+        setupLogoutButton();
+    }
+    
+    protected JButton createSidebarButton(String text, int yPosition) {
+        JButton button = new JButton(text);
+        button.setBounds(25, yPosition, 200, 40);
+        button.setFocusPainted(false);
+        return button;
+    }
+    
+    protected void setupLogoutButton() {
         JButton logoutButton = new JButton("Logout");
-        logoutButton.setBounds(25, 500, 200, 40);
+        logoutButton.setBounds(25, 750, 200, 40);
         logoutButton.setBackground(new Color(220, 53, 69));
         logoutButton.setForeground(Color.WHITE);
-        sidebar.add(logoutButton);
-        
         logoutButton.addActionListener(e -> controller.handleLogout());
-        
         sidebar.add(logoutButton);
     }
-
 }
+        
